@@ -31,7 +31,7 @@ void loop(void) {
     u8g2.setFont(u8g2_font_inr24_mn);
     char buf[4];
     sprintf(buf, "%d", count);
-    u8g2.drawStr(70,44,buf);
+    u8g2.drawStr(70-(20* ((count>9? 1: 0)+(count>99? 1: 0))),44,buf);
     u8g2.sendBuffer();
   }
 }
