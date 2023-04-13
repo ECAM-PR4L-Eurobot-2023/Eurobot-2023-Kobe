@@ -79,29 +79,23 @@ void loop(void)
 
   // Serial.println(count);
 
-  if (!digitalRead(countPin))
-  {
+  if(!digitalRead(countPin)){
     count += 1;
-    while (!digitalRead(countPin))
-      ;
+    while(!digitalRead(countPin));
   }
 
-  if (prevCount != count)
-  {
+  if(prevCount != count){
     drawn = false;
     prevCount = count;
   }
 
-  if (!drawn)
-  {
-    Serial.println("drawing");
+  if(!drawn){
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_inr24_mn);
     char buf[4];
     sprintf(buf, "%d", count);
-    u8g2.drawStr(70 - (20 * ((count > 9 ? 1 : 0) + (count > 99 ? 1 : 0))), 44, buf);
+    u8g2.drawStr(70-(20* ((count>9? 1: 0)+(count>99? 1: 0))),44,buf);
     u8g2.sendBuffer();
-    drawn = true;
   }
 
 }
