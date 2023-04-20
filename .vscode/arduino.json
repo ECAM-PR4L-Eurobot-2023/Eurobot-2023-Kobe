@@ -3,5 +3,5 @@
     "board": "esp32:esp32:esp32",
     "output": "build",
     "sketch": "Cherrycounter\\Cherrycounter.ino",
-    "port": "/dev/tty.usbserial-0001"
+    "port": "COM9"
 }

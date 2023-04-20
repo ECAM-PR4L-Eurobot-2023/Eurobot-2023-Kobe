@@ -11,11 +11,12 @@
 #include <std_msgs/Empty.h>
 
 #define countPin 4
+#define REBOUND_TIME 50
 
 const char *ssid = "Eurobot-WiFi";
 const char *password = "robotseverywhere";
 
-
+uint32_t timeBetweenCounter = 0;
 int count = 0;
 int prevCount = 0;
 boolean drawn = false;
@@ -39,7 +40,13 @@ ros::Subscriber<std_msgs::Empty> sub("kobe/getCherry", &getCallback);
 
 U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* clock=*/SCL, /* data=*/SDA, /* reset=*/U8X8_PIN_NONE); // High speed I2C
 
-
+void countCherry()
+{
+  if ((millis() - timeBetweenCounter) > REBOUND_TIME) {
+    timeBetweenCounter = millis();
+    count += 1;
+  }
+}
 
 
 void setup(void)
@@ -47,6 +54,8 @@ void setup(void)
   Serial.begin(115200);
   u8g2.begin();
   pinMode(countPin, INPUT);
+  attachInterrupt(digitalPinToInterrupt(countPin), countCherry, FALLING);
+
 
   WiFi.begin(ssid, password);
   unsigned long start = millis();
@@ -79,10 +88,10 @@ void loop(void)
 
   // Serial.println(count);
 
-  if(!digitalRead(countPin)){
-    count += 1;
-    while(!digitalRead(countPin));
-  }
+  // if(!digitalRead(countPin)){
+  //   count += 1;
+  //   while(!digitalRead(countPin));
+  // }
 
   if(prevCount != count){
     drawn = false;
