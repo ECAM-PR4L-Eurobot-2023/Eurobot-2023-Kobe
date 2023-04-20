@@ -45,6 +45,8 @@ void countCherry()
   if ((millis() - timeBetweenCounter) > REBOUND_TIME) {
     timeBetweenCounter = millis();
     count += 1;
+    // Serial.println("yes");
+    // Serial.println(count);
   }
 }
 
@@ -99,6 +101,7 @@ void loop(void)
   }
 
   if(!drawn){
+    // Serial.println("deur");
     u8g2.clearBuffer();
     u8g2.setFont(u8g2_font_inr24_mn);
     char buf[4];
